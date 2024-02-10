@@ -1,0 +1,8 @@
+
+{
+  "default_output_format": "wav",
+  "default_audio_quality": "192",
+  "ffmpeg_path": "/usr/bin/ffmpeg",
+  "diarization_pipeline_model": "pyannote/speaker-diarization",
+  "transcription_model": "base"
+}

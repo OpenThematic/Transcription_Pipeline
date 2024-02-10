@@ -1,7 +1,6 @@
 #Add the Results/ directory to the.gitignore file
 Results/
 config.ini
-config.json
 research/
 _pycache_/
 Input_AV/
