@@ -15,10 +15,11 @@ This project provides a Python-based pipeline for extracting audio from video fi
 - Python 3.x
 - Libraries: `pydub`, `yt_dlp`, `pyannote.audio`, `whisper`
 - ffmpeg (for audio extraction from video)
+- Ideally CUDA GPU with  10GB for whisper large or 6-8gb for whisper medium - will run on CPU, just slower.
 - See docker file
 
 ## Installation
-
+Ideally docker compose a dev environment via the compose yaml / dockerfile
 
 
 Usage
