@@ -15,29 +15,23 @@ This project provides a Python-based pipeline for extracting audio from video fi
 - Python 3.x
 - Libraries: `pydub`, `yt_dlp`, `pyannote.audio`, `whisper`
 - ffmpeg (for audio extraction from video)
+- Ideally CUDA GPU with  10GB for whisper large or 6-8gb for whisper medium - will run on CPU, just slower.
+- See docker file
 
 ## Installation
-
+Ideally docker compose a dev environment via the compose yaml / dockerfile
 
 
 Usage
-Place your audio or video files in a directory accessible by the script.
-Run the main.py script with the path to your file:
-bash
-Copy code
-python main.py path_to_your_file.mp4
-Arguments:
+Configuration is made in config.ini - there you can set a path to your input directory (where audio or video files are stored).
+Make changes (other than the model) to the transcription settings within transcript.py.
+Run the main.py script.
 
-input_file: Path to the input audio or video file.
-is_video (optional): Set to True if the input file is a video (default: True).
-duration_minutes (optional): Duration in minutes to trim the audio (default: 20).
-Modules
-audio_processing.py: Handles audio extraction and trimming.
+audio_processing.py: Handles audio extraction and trimming, noise reduction, normalization, produces a mp4 with embedded subtitles.
 speaker_diarization.py: Performs speaker diarization using pyannote.audio.
 transcription.py: Transcribes audio using Whisper.
-main.py: Integrates all modules and runs the pipeline.
-Contributing
-Contributions to improve the project are welcome. Please follow the standard fork and pull request workflow.
+main.py: Integrates all modules and runs the pipeline - produces various output formats.
+
 
 License
 [Your chosen license]
