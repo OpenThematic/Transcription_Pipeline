@@ -4,3 +4,6 @@ config.ini
 research/
 _pycache_/
 Input_AV/
+Input_standby/
+transformers/
+LlamaIndex_refs/

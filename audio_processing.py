@@ -57,7 +57,16 @@ def trim_audio(input_audio_file, output_audio_file, duration_minutes):
         if config.getboolean('Audio', 'EnableVolumeNormalization'):
             trimmed_audio = normalize(trimmed_audio)
 
-             #Export the processed audio
+        # Convert the audio to the specified sampling rate
+        if config.has_option('Audio', 'SamplingRate'):
+            sampling_rate = config.getint('Audio', 'SamplingRate')
+            trimmed_audio = trimmed_audio.set_frame_rate(sampling_rate)
+
+        # Convert the audio file to mono
+        if trimmed_audio.channels > 1:
+            trimmed_audio = trimmed_audio.set_channels(1)
+
+        # Export the processed audio
         trimmed_audio.export(output_audio_file, format="wav")
        
         return True
@@ -72,7 +81,7 @@ def combine_audio_subtitles(audio_file, srt_file, output_file):
             '-i', audio_file, 
             '-i', srt_file, 
             '-c:a', 'aac', 
-            '-b:a', '192k', 
+            '-b:a', '96k', 
             '-vn', 
             '-c:s', 'mov_text', 
             output_file

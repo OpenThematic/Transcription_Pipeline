@@ -1,21 +1,23 @@
 import audio_processing
 import speaker_diarization
 import transcription
+import transcription_whisper_sv
 import logging
 import configparser
 import os
 import json
 import glob
 
-# Set up logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-
 # Load configurations
 config = configparser.ConfigParser()
 config.read('config.ini')
 
+# Set up logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
 class CriticalError(Exception):
     pass
+
 
 def save_results_to_file(results, file_path):
     os.makedirs(os.path.dirname(file_path), exist_ok=True)  # Ensure the directory exists
@@ -134,9 +136,10 @@ import sys  # Make sure this import is at the top of your script
 def main(input_dir):
     # Iterate over audio files in the specified input directory
     logging.info(f"Processing audio in directory {input_dir}")
+    logging.info(f"loading: {input_file}")
 
     for input_file in glob.glob(os.path.join(input_dir, '*')):
-        logging.info(f"Processing audio in {input_file}")
+      
 
         # Ensure 'paths' is defined outside of any conditional blocks
         paths = construct_output_paths(input_file)

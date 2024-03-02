@@ -7,8 +7,8 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 
 # Load the Whisper model based on configuration
-model_size = config.get('Whisper', 'ModelSize')
-model = whisper.load_model(model_size)
+modelId = config.get('Whisper', 'ModelID')
+model = whisper.load_model(modelId)
 
 """
 Will be converting to stable-whisper library for simplicity and consolidation of features.
@@ -88,27 +88,27 @@ def transcribe_audio(input_audio_file):
 
     # Determines whether to transcribe the audio as-is ("transcribe") or translate it into English ("translate").
     # Default: "transcribe"
-    "task": "translate",
+    "task": "transcribe",
 
     # Sets the temperature for sampling; higher values generate more varied output. Zero disables sampling for deterministic output.
     # Default: 0.0
-    #"temperature": 0.0,
+    #"temperature": (0.0,0.05,0.1,0.15,0.2,0.25),
 
     # When using a non-zero temperature, this specifies the number of candidate transcriptions to consider.
     # Default: 5
-    #"best_of": 10,
+    "best_of": 5,
 
     # Number of beams in beam search, applicable only when temperature is zero. More beams can improve accuracy at the cost of speed.
     # Default: 5
-    #"beam_size": 5,
+    "beam_size": 5,
 
     # Patience parameter for beam decoding, influencing how long to wait for a better option before finalizing a decision.
     # Default: None (equivalent to conventional beam search with a patience of 1.0)
-    #"patience": 10.0,
+    #"patience": 5.0,
 
     # Applies a length penalty to discourage overly long or short sentences, affecting beam search.
     # Default: None (uses simple length normalization)
-    #"length_penalty": None,
+    #"length_penalty": .1,
 
     # A list of token IDs to suppress during sampling, preventing certain tokens from being generated.
     # Default: "-1" (suppresses most special characters except common punctuation)
@@ -116,15 +116,16 @@ def transcribe_audio(input_audio_file):
 
     # Initial prompt text to provide context or start the transcription, influencing the model's output.
     # Default: None
-    "initial_prompt": "An interview between a researcher and residents of Gotland, Sweden.  The interview is conducted in Swedish and opens with introductions. The topic is often hembygdsförening, local heritage societies, and rural life.",
+    #"initial_prompt": "En intervju med en man från Fårösund.",
+    #"initial_prompt": "An interview with a man from Farosund.",
 
     # Whether to use the previous output as a prompt for the next window, helping maintain context.
     # Default: True
-    #"condition_on_previous_text": True,
+    "condition_on_previous_text": True,
 
     # Whether to perform inference in FP16 mode, which can be faster on compatible hardware.
     # Default: True
-    #"fp16": True,
+    "fp16": True,
 
     # The amount to increase the temperature after a fallback due to failing the compression ratio or log probability thresholds.
     # Default: 0.2 
@@ -198,10 +199,10 @@ def transcribe_audio(input_audio_file):
 def transcribe_audio_v2_basic(input_audio_file):
     beam_size=5
     best_of=5
-    temperature=(0.0, 0.5, 0.1, 0.15, 0.2, 0.25, 0.3)
+    temperature=(0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3)
 
     decode_options = dict(language="Swedish", verbose=True, best_of=best_of, beam_size=beam_size, temperature=temperature)
-    transcribe_options = dict(task="translate", **decode_options)
+    transcribe_options = dict(task="transcribe", **decode_options)
 
     result = model.transcribe(input_audio_file, **transcribe_options)
     return result

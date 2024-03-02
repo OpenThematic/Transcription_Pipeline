@@ -3,7 +3,7 @@ import logging
 import torch
 from pyannote.audio import Pipeline
 import configparser
-import torchaudio  # Required for loading audio into memory
+import torchaudio 
 
 # Load configurations
 config = configparser.ConfigParser()
@@ -36,16 +36,17 @@ def diarize_audio(input_audio_file, num_speakers=None, min_speakers=None, max_sp
                 diarization_options["max_speakers"] = max_speakers
 
             diarization = pipeline(audio_data, **diarization_options)
+        
 
-        # Extract and format diarization results
         diarization_results = []
         for turn, _, speaker in diarization.itertracks(yield_label=True):
             diarization_results.append({
-                "start": turn.start,
-                "end": turn.end,
+                "speaker_start": turn.start,
+                "speaker_end": turn.end,
                 "speaker": speaker
             })
 
+        
         return diarization_results
     except Exception as e:
         logging.error(f"Error in speaker diarization: {e}")
