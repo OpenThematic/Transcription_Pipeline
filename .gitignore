@@ -7,3 +7,7 @@ Input_AV/
 Input_standby/
 transformers/
 LlamaIndex_refs/
+Whisper_models/pjer_whisper-medium-sv.pt
+Whisper_models/pjer_whisper-small-sv.pt
+Whisper_models/whisper-large-sv-v2.pt
+Whisper_models/whisper-medium-nordic.pt
